@@ -30,9 +30,9 @@
                         <td>
                             <a class="btn btn-primary" href="{{ route('admin.technologies.show', ['technology' => $technology->id]) }}">View</a>
                             <a class="btn btn-warning" href="{{ route('admin.technologies.edit', ['technology' => $technology->id]) }}">Edit</a>
-                            {{-- <button type="button" class="btn btn-danger js_delete" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="{{ $type->id }}">
+                            <button type="button" class="btn btn-danger js_delete" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="{{ $technology->id }}">
                                 Delete
-                            </button> --}}
+                            </button>
                         </td>
                     </tr>
                 @endforeach
@@ -41,7 +41,7 @@
 
         {{-- Modale 'Are you sure' - Delete --}}
     
-        {{-- <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -57,7 +57,7 @@
                         </button>
                         <form
                         action=""
-                        data-template="{{ route('admin.types.destroy', ['type' => '*****']) }}"
+                        data-template="{{ route('admin.technologies.destroy', ['technology' => '*****']) }}"
                         method="POST"
                         class="d-inline-block"
                         id="confirm-delete"
@@ -69,7 +69,7 @@
                     </div>
                 </div>
             </div>
-        </div> --}}
+        </div>
     </div>
     
 @endsection
