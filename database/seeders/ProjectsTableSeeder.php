@@ -19,13 +19,18 @@ class ProjectsTableSeeder extends Seeder
         $projects = config('projects');
 
         foreach ($projects as $arrProjects) {
-            // metodo 1
-            // $objHouse = new House();
-            // $objHouse->reference = $arrHouse['reference'];
-            // $objHouse->save()
 
-            // metodo 2
-            Project::create($arrProjects);
+            $project = Project::create([
+                "title"         => $arrProjects['title'],
+                "author"        => $arrProjects['author'],
+                "creation_date" => $arrProjects['creation_date'],
+                "last_update"   => $arrProjects['last_update'],
+                "collaborators" => $arrProjects['collaborators'],
+                "description"   => $arrProjects['description'],
+                "link_github"   => $arrProjects['link_github'],
+                "type_id"       => $arrProjects['type_id'],
+            ]);
+            $project->technologies()->sync($arrProjects['technologies']);
         }
     }
 }
