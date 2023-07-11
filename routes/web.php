@@ -5,8 +5,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\TypeController;
 use App\Http\Controllers\Admin\ProjectController;
-use App\Http\Controllers\Guests\PageController as GuestsPageController;
+use App\Http\Controllers\Admin\TechnologyController;
 use App\Http\Controllers\Admin\PageController as AdminPageController;
+use App\Http\Controllers\Guests\PageController as GuestsPageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,6 +43,8 @@ Route::middleware('auth', 'verified')
         Route::delete('types/{type}/harddelete', [TypeController::class, 'harddelete'])->name('types.harddelete');
 
         Route::resource('types', TypeController::class);
+
+        Route::resource('technologies', TechnologyController::class);
     });
 
 Route::middleware('auth')

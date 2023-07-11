@@ -6,12 +6,12 @@ use App\Models\Type;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Technology;
 
 class ProjectController extends Controller
 {
 
     private $validations = [
-
 
         'type_id' => "required|integer|exists:types,id",
         'title' => 'required|string|min:5|max:50',
@@ -51,7 +51,8 @@ class ProjectController extends Controller
     public function create()
     {
         $types = Type::All();
-        return view('admin.projects.create', compact('types'));
+        $technologies = Technology::All();
+        return view('admin.projects.create', compact('types', 'technologies'));
     }
 
     /**
@@ -83,6 +84,8 @@ class ProjectController extends Controller
 
         $newProject->save();
 
+        $newProject->technologies()->sync($data['technologies'] ?? []);
+
         return redirect()->route('admin.projects.index', ['project' => $newProject->id]);
     }
 
@@ -106,7 +109,8 @@ class ProjectController extends Controller
     public function edit(Project $project)
     {
         $types = Type::All();
-        return view('admin.projects.edit', compact('project', 'types'));
+        $technologies = Technology::All();
+        return view('admin.projects.edit', compact('project', 'types', 'technologies'));
     }
 
     /**
@@ -136,6 +140,8 @@ class ProjectController extends Controller
         $project->link_github = $data['link_github'];
 
         $project->update();
+
+        $project->technologies()->sync($data['technologies'] ?? []);
 
         return redirect()->route('admin.projects.index', ['project' => $project->id]);
     }

@@ -81,6 +81,7 @@
                             {{ $project->type->name }}
                             </a>
                         </td>
+                        <td><a href="">{{ implode(', ', $project->technologies->pluck('name')->all()) }}</a></td>
                         <td><a class="text-decoration-none" href="{{ $project->link_github }}">Link</a></td>
                         
                         <td>
@@ -131,4 +132,6 @@
     <div class="px-4 d-flex flex-column justify-content-start" style=" font-size:20px; font-weight: 700">
         {{ $projects->links() }}
     </div>
+
+    {{-- {{ route('admin.technologies.show', ['technology' => $project->technology]) }} --}}
 @endsection

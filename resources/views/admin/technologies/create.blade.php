@@ -1,11 +1,9 @@
 @extends('admin.layouts.base')
 
 @section('contents')
-
-    <h1>Add Type</h1>
-
-
-    <form method="POST" action="{{ route('admin.types.store') }}" novalidate>
+<div class="p-5" style="margin-inline: 10rem">
+    <h1>Create a new Technology</h1>
+    <form method="POST" action="{{ route('admin.technologies.store') }}" novalidate>
         @csrf
 
         <div class="mb-3">
@@ -40,5 +38,5 @@
 
         <button class="btn btn-primary">Update</button>
     </form>
-
+    
 @endsection
