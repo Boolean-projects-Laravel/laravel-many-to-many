@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Type;
 use App\Models\Project;
+use App\Models\Technology;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Technology;
 
 class ProjectController extends Controller
 {
@@ -77,6 +77,7 @@ class ProjectController extends Controller
 
         $newProject->type_id = $data['type_id'];
         $newProject->title = $data['title'];
+        $newProject->slug = Project::slugger($data['title']);
         $newProject->creation_date = $data['creation_date'];
         $newProject->last_update = $data['last_update'];
         $newProject->author = $data['author'];
@@ -97,8 +98,9 @@ class ProjectController extends Controller
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function show(Project $project)
+    public function show($slug)
     {
+        $project = Project::where('slug', $slug)->firstOrFail();
         return view('admin.projects.show', compact('project'));
     }
 
@@ -108,10 +110,11 @@ class ProjectController extends Controller
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function edit(Project $project)
+    public function edit($slug)
     {
         $types = Type::All();
         $technologies = Technology::All();
+        $project = Project::where('slug', $slug)->firstOrFail();
         return view('admin.projects.edit', compact('project', 'types', 'technologies'));
     }
 
@@ -122,8 +125,11 @@ class ProjectController extends Controller
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Project $project)
+    public function update(Request $request, $slug)
     {
+
+        $project = Project::where('slug', $slug)->firstOrFail();
+
         //validare i dati del form
 
         $request->validate($this->validations, $this->validations_messages);
@@ -134,6 +140,7 @@ class ProjectController extends Controller
 
         $project->type_id = $data['type_id'];
         $project->title = $data['title'];
+
         $project->creation_date = $data['creation_date'];
         $project->last_update = $data['last_update'];
         $project->author = $data['author'];
@@ -154,8 +161,11 @@ class ProjectController extends Controller
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Project $project)
+    public function destroy($slug)
     {
+        $project = Project::where('slug', $slug)->firstOrFail();
+
+
         $project->delete();
 
         return to_route('admin.projects.index')->with('delete_success', $project);
@@ -163,27 +173,50 @@ class ProjectController extends Controller
 
     //da qui in avanti bisogna richiamare i route dal web.php perchè il comando si ferma a 'destroy'
 
-    public function restore($id)
+    public function restore($slug)
     {
-        Project::withTrashed()->where('id', $id)->restore();
+        //messo prima pechè altrimenti non ti fa comparire il messaggio di ripristino
+        $project = Project::find($slug);
 
-        $project = Project::find($id);
+        Project::withTrashed()->where('slug', $slug)->restore();
+        $project = Project::where('slug', $slug)->firstOrFail();
+
 
         return to_route('admin.projects.index')->with('restore_success', $project);
     }
+
+
+
     public function trashed()
     {
         $trashedProjects = Project::onlyTrashed()->paginate(5);
 
         return view('admin.projects.trashed', compact('trashedProjects'));
     }
-    public function harddelete($id)
-    {
-        $project = Project::withTrashed()->find($id);
 
+
+
+    public function harddelete($slug)
+    {
+        $project = Project::withTrashed()->find($slug);
+
+        // $project = Project::where('slug', $slug)->firstOrFail();
+
+
+        //disassociare tutti i tag dal project
         $project->technologies()->detach();
         $project->forceDelete();
 
         return to_route('admin.projects.trashed')->with('delete_success', $project);
     }
+
+    // public function harddelete($slug)
+    // {
+    //     $project = Project::withTrashed()->find($slug);
+
+    //     // se ho il trashed lo inserisco nel harddelete
+    //     $project->technologies()->detach();
+    //     $project->forceDelete();
+    //     return to_route('admin.project.trashed')->with('delete_success', $project);
+    // }
 }

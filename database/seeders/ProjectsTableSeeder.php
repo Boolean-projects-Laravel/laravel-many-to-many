@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 use App\Models\Project;
+use Illuminate\Database\Seeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 
 class ProjectsTableSeeder extends Seeder
@@ -20,7 +20,10 @@ class ProjectsTableSeeder extends Seeder
 
 
         foreach ($projects as $arrProjects) {
+            // $slug = Project::slugger($arrProjects['title']);
+
             $slug = Project::slugger($arrProjects['title']);
+
             $project = Project::create([
                 "title"         => $arrProjects['title'],
                 "slug"          => $slug,

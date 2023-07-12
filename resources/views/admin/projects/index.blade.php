@@ -91,7 +91,13 @@
                         <td>
                             <a class="btn btn-primary" href="{{ route('admin.projects.show', ['project' => $project]) }}">View</a>
                             <a class="btn btn-warning" href="{{ route('admin.projects.edit', ['project' => $project]) }}">Edit</a>
-                            <button type="button" class="btn btn-danger js_delete" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="{{ $project->id }}">
+                            <button 
+                                type="button" 
+                                class="btn btn-danger js_delete" 
+                                data-bs-toggle="modal" 
+                                data-bs-target="#deleteModal" 
+                                data-id="{{ $project->slug }}"
+                            >
                                 Delete
                             </button>
                         </td>

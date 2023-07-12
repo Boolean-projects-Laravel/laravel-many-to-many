@@ -44,12 +44,18 @@
                     <td>{{ $project->collaborators }}</td>
                     <td>{{ $project->description }}</td>
                     <td><a href="{{ route('admin.types.show', ['type' => $project->type]) }}">{{ $project->type->name }}</a></td>
+                    <td>
+                        {{-- <a href="">{{ implode(', ', $project->technologies->pluck('name')->all()) }}</a> --}}
+                        @foreach ($project->technologies as $technology)
+                            <a href="{{route('admin.technologies.show', ['technology' => $technology])}}">{{$technology->name}}</a>{{ !$loop->last ? ',' : '' }}
+                        @endforeach
+                    </td>
                     <td><a href="{{ $project->link_github }}">Link</a></td>
                     
                     <td class="d-flex justify-content-end px-3">
                         <form
                             action=
-                            "{{ route('admin.projects.restore', ['project' => $project->id]) }}"
+                            "{{ route('admin.projects.restore', ['project' => $project]) }}"
                             method="post"
                             class="d-inline-block mx-1"
                         >
