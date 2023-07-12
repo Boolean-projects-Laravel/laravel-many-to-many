@@ -18,7 +18,7 @@
     </button>
 
     <div class="container_table m-4">
-        <table class="table table-striped">
+        <table class="table table-striped table-dark">
             <thead>
                 <tr>
                     <th scope="col">Name</th>
@@ -35,7 +35,13 @@
                         <td>
                             <a class="btn btn-primary" href="{{ route('admin.types.show', ['type' => $type->id]) }}">View</a>
                             <a class="btn btn-warning" href="{{ route('admin.types.edit', ['type' => $type->id]) }}">Edit</a>
-                             <button type="button" class="btn btn-danger js_delete" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="{{ $type->id }}">
+                             <button 
+                                type="button" 
+                                class="btn btn-danger js_delete" 
+                                data-bs-toggle="modal" 
+                                data-bs-target="#deleteModal"
+                                data-id="{{ $type->id }}"
+                            >
                                 Delete
                             </button>
                         </td>

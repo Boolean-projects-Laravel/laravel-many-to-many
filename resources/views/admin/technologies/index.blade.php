@@ -12,13 +12,13 @@
         <a href="{{ route("admin.technologies.create") }}" class="card-link text-decoration-none text-light" style="font-weight: 700; font-size:25px">Create a new Technology</a>
     </button>
 
-    <div class="container_table m-4">
-        <table class="table table-striped">
+    <div class="container bg-dark">
+        <table class="table table-striped table-dark">
             <thead>
                 <tr>
                     <th scope="col">Name</th>
                     <th scope="col">Id</th>
-                    <th scope="col">Actions</th>
+                    <th scope="col"><span style="padding-left: 52rem;">Actions</span></th>
                 </tr>
             </thead>
             <tbody>
@@ -27,10 +27,10 @@
                         <th scope="row">{{ $technology->name }}</th>
                         <th scope="row">{{ $technology->id }}</th>
                         
-                        <td>
-                            <a class="btn btn-primary" href="{{ route('admin.technologies.show', ['technology' => $technology->id]) }}">View</a>
-                            <a class="btn btn-warning" href="{{ route('admin.technologies.edit', ['technology' => $technology->id]) }}">Edit</a>
-                            <button type="button" class="btn btn-danger js_delete" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="{{ $technology->id }}">
+                        <td class="d-flex justify-content-end px-4">
+                            <a class="btn btn-primary mx-1" href="{{ route('admin.technologies.show', ['technology' => $technology->id]) }}">View</a>
+                            <a class="btn btn-warning mx-1" href="{{ route('admin.technologies.edit', ['technology' => $technology->id]) }}">Edit</a>
+                            <button type="button" class="btn btn-danger js_delete mx-1" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="{{ $technology->id }}">
                                 Delete
                             </button>
                         </td>

@@ -18,10 +18,12 @@ class ProjectsTableSeeder extends Seeder
     {
         $projects = config('projects');
 
-        foreach ($projects as $arrProjects) {
 
+        foreach ($projects as $arrProjects) {
+            $slug = Project::slugger($arrProjects['title']);
             $project = Project::create([
                 "title"         => $arrProjects['title'],
+                "slug"          => $slug,
                 "author"        => $arrProjects['author'],
                 "creation_date" => $arrProjects['creation_date'],
                 "last_update"   => $arrProjects['last_update'],

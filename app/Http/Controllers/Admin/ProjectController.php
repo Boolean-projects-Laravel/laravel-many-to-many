@@ -21,6 +21,8 @@ class ProjectController extends Controller
         'collaborators' => 'nullable|string|max:150',
         'description' => 'nullable|string|',
         'link_github' => 'required|string|max:150',
+        // 'technologies'      => 'nullable|array',
+        'technologies. *'   => 'integer|exists:technologies,id',
     ];
     private $validations_messages = [
         'required' => 'il campo :attribute è obbligatorio',
@@ -86,7 +88,7 @@ class ProjectController extends Controller
 
         $newProject->technologies()->sync($data['technologies'] ?? []);
 
-        return redirect()->route('admin.projects.index', ['project' => $newProject->id]);
+        return redirect()->route('admin.projects.index', ['project' => $newProject]);
     }
 
     /**
@@ -178,6 +180,8 @@ class ProjectController extends Controller
     public function harddelete($id)
     {
         $project = Project::withTrashed()->find($id);
+
+        $project->technologies()->detach();
         $project->forceDelete();
 
         return to_route('admin.projects.trashed')->with('delete_success', $project);

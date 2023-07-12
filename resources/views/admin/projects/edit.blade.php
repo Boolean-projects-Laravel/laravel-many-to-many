@@ -26,6 +26,7 @@
             </div>
         </div>
 
+
         <div class="mb-3">
             <label for="author" class="form-label" style="font-weight:700; font-size:20px">
                 Author
@@ -41,6 +42,7 @@
                 @error('author') {{ $message }} @enderror
             </div>
         </div>
+
 
         <div class="mb-3">
             <label for="creation_date" class="form-label" style="font-weight:700; font-size:20px">
@@ -72,6 +74,7 @@
                 @error('last_update') {{ $message }} @enderror
             </div>
         </div>
+
 
         <div class="mb-3">
             <label for="collaborators" class="form-label" style="font-weight:700; font-size:20px">
@@ -106,25 +109,9 @@
             </div>
         </div>
 
-        
-        {{-- <div class="mb-3">
-            <label for="languages" class="form-label"style="font-weight:700; font-size:20px">
-                Languages
-            </label>
-            <input 
-            type="text" 
-            class="form-control @error('languages') is-invalid @enderror" 
-            id="languages" 
-            name="languages" 
-            value="{{ old('languages', $project->languages)}}">
 
-            <div class="invalid-feedback">
-                @error('languages') {{ $message }} @enderror
-            </div>
-        </div> --}}
-
-         <div class="mb-3">
-            <label for="category" class="form-label">Type</label>
+        <div class="mb-3">
+            <label for="type" class="form-label">Type</label>
             <select
                 class="form-select 
                 @error('type_id') is-invalid @enderror"
@@ -146,6 +133,32 @@
                 </div>
             @enderror
         </div>
+
+        
+        <div class="mb-3">
+            <h3>Technologies</h3>
+            @foreach($technologies as $technology)
+                <div class="mb-3 form-check">
+                    <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="technology{{ $technology->id }}"
+                        name="technologies[]"
+                        value="{{ $technology->id }}"
+                        @if (in_array($technology->id, old('technologies', $project->technologies->pluck('id')->all()))) checked @endif
+                    >
+                    <label class="form-check-label" for="technology{{ $technology->id }}">{{ $technology->name }}</label>
+                </div>
+            @endforeach
+
+            {{-- @dump($errors->get('tags.*')) --}}
+            {{-- @error('tags')
+                <div class="">
+                    {{ $message }}
+                </div>
+            @enderror --}}
+        </div>
+
 
         <div class="mb-3">
             <label for="link_github" class="form-label"style="font-weight:700; font-size:20px">

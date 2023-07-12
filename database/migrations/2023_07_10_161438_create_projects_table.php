@@ -18,6 +18,7 @@ return new class extends Migration
 
             $table->unsignedBigInteger('type_id');
             $table->string('title', 50);
+            $table->string('slug', 100)->unique();
             $table->date('creation_date');
             $table->date('last_update');
             $table->string('author', 30);

@@ -11,9 +11,7 @@
 
     @if (session('delete_success'))
             
-    @php
-        $project = session('delete_success') 
-    @endphp
+    @php $project = session('delete_success') @endphp
 
     <div class="alert alert-danger">
         The Project '{{$project->title}}' has moved to the trash
@@ -48,7 +46,7 @@
     </button>
 
     <div class="container_table m-4">
-        <table class="table table-striped mt-4">
+        <table class="table table-striped table-dark mt-4">
             <thead>
                 <tr>
                     <th scope="col">Title</th>
@@ -59,6 +57,7 @@
                     <th scope="col">Collaborators</th>
                     <th scope="col">Description</th>
                     <th scope="col">Type</th>
+                    <th scope="col">Technology</th>
                     <th scope="col">Link</th>
                     <th scope="col"><span class="d-flex justify-content-center" style="padding-right: 7rem;">Actions</span></th>
                 </tr>
@@ -81,7 +80,12 @@
                             {{ $project->type->name }}
                             </a>
                         </td>
-                        <td><a href="">{{ implode(', ', $project->technologies->pluck('name')->all()) }}</a></td>
+                        <td>
+                            {{-- <a href="">{{ implode(', ', $project->technologies->pluck('name')->all()) }}</a> --}}
+                            @foreach ($project->technologies as $technology)
+                                <a href="{{route('admin.technologies.show', ['technology' => $technology])}}">{{$technology->name}}</a>{{ !$loop->last ? ',' : '' }}
+                            @endforeach
+                        </td>
                         <td><a class="text-decoration-none" href="{{ $project->link_github }}">Link</a></td>
                         
                         <td>
@@ -133,5 +137,5 @@
         {{ $projects->links() }}
     </div>
 
-    {{-- {{ route('admin.technologies.show', ['technology' => $project->technology]) }} --}}
+    
 @endsection

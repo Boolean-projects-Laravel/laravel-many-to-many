@@ -105,23 +105,7 @@
             </div>
         </div>
 
-        
-        {{-- <div class="mb-3">
-            <label for="languages" class="form-label"style="font-weight:700; font-size:20px">
-                Languages
-            </label>
-            <input 
-            type="text" 
-            class="form-control @error('languages') is-invalid @enderror" 
-            id="languages" 
-            name="languages" 
-            value="{{ old('languages')}}">
-
-            <div class="invalid-feedback">
-                @error('languages') {{ $message }} @enderror
-            </div>
-        </div> --}}
-
+    
         <div class="mb-3">
             <label for="type" class="form-label">
                 Type
@@ -143,6 +127,33 @@
                 @error('type_id') {{ $message }} @enderror
             </div>
         </div>
+
+
+        <div class="mb-3">
+            <h3>Technologies</h3>
+            @foreach($technologies as $technology)
+                <div class="mb-3 form-check">
+                    <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="technology{{ $technology->id }}"
+                        name="technologies[]"
+                        value="{{ $technology->id }}"
+                        @if (in_array($technology->id, old('technologies') ?: [])) checked @endif
+                    >
+                    <label class="form-check-label" for="technology{{ $technology->id }}">{{ $technology->name }}</label>
+                    
+                </div>
+            @endforeach
+
+            {{-- @dump($errors->get('tags.*')) --}}
+            {{-- @error('tags')
+                <div class="">
+                    {{ $message }}
+                </div>
+            @enderror --}}
+        </div>
+
 
         <div class="mb-3">
             <label for="link_github" class="form-label"style="font-weight:700; font-size:20px">
