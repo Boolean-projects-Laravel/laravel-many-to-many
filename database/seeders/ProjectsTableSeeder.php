@@ -31,6 +31,7 @@ class ProjectsTableSeeder extends Seeder
                 "creation_date" => $arrProjects['creation_date'],
                 "last_update"   => $arrProjects['last_update'],
                 "collaborators" => $arrProjects['collaborators'],
+                "image"         => $arrProjects['image'],
                 "description"   => $arrProjects['description'],
                 "link_github"   => $arrProjects['link_github'],
                 "type_id"       => $arrProjects['type_id'],

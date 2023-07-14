@@ -1,7 +1,9 @@
 @extends('admin.layouts.base')
 
 @section('contents')
-    <table class="table table-striped">
+    
+    
+    <table class="table table-striped table-dark m-0">
         <thead>
             <tr>
                 <th scope="col">Title</th>
@@ -50,5 +52,10 @@
             </tr>
         </tbody>
     </table>
+    
+    <div class="container_image w-100 d-flex justify-content-center flex-column">
+        <img src="{{ asset('storage/' . $project->image) }}" alt="" class="image-fluid">
+    </div>
+    
 
 @endsection

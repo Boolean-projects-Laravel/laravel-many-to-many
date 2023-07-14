@@ -7,6 +7,7 @@ use App\Models\Project;
 use App\Models\Technology;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
 {
@@ -19,10 +20,11 @@ class ProjectController extends Controller
         'last_update' => 'required|date|max:20',
         'author' => 'required|string|max:30',
         'collaborators' => 'nullable|string|max:150',
+        'image' => 'nullable|image|max:1024',
         'description' => 'nullable|string|',
         'link_github' => 'required|string|max:150',
-        // 'technologies'      => 'nullable|array',
         'technologies. *'   => 'integer|exists:technologies,id',
+
     ];
     private $validations_messages = [
         'required' => 'il campo :attribute è obbligatorio',
@@ -40,7 +42,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::paginate(5);
+        $projects = Project::paginate(10);
 
         return view('admin.projects.index', compact('projects'));
     }
@@ -71,7 +73,12 @@ class ProjectController extends Controller
 
         $data = $request->all();
 
-        // salvare i dati nel database
+        //salvare l'immagine nella cartella degli uploads
+        //prendere il percorso dell'immagine appena salvata
+
+        $image = Storage::put('uploads', $data['image']);
+
+        // salvare i dati nel database insieme al percorso dell'immagine
 
         $newProject = new Project();
 
@@ -82,8 +89,10 @@ class ProjectController extends Controller
         $newProject->last_update = $data['last_update'];
         $newProject->author = $data['author'];
         $newProject->collaborators = $data['collaborators'];
+        $newProject->image = $image;
         $newProject->description = $data['description'];
         $newProject->link_github = $data['link_github'];
+
 
         $newProject->save();
 
@@ -198,10 +207,11 @@ class ProjectController extends Controller
 
     public function harddelete($slug)
     {
-        $project = Project::withTrashed()->find($slug);
+        $project = Project::withTrashed()->where('slug', $slug)->first();
 
-        // $project = Project::where('slug', $slug)->firstOrFail();
-
+        if ($project->file) {
+            Storage::delete($project->file);
+        }
 
         //disassociare tutti i tag dal project
         $project->technologies()->detach();

@@ -22,7 +22,7 @@ class Project extends Model
 
     public static function slugger($string)
     {
-        //Post::slugger($title)
+        //Project::slugger($title)
 
         //generare lo slug base
 
@@ -39,14 +39,6 @@ class Project extends Model
             //incrementa il contatore
             $i++; //ciao-a-tutti-2
         }
-
-        //verificare se lo slug è già presente nella colonna slug della tabella
-
-        //se è presente incrementare un contatore e concatenare il numero allo slug base
-
-        //ripetere finchp non generiamo uno slug no presente nel db
-
-        //ritornare allo slug trovato
 
         return $slug;
     }

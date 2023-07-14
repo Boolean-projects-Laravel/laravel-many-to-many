@@ -3,7 +3,12 @@
 @section('contents')
 <div class="p-5" style="margin-inline: 10rem">
     <h1>Create a new Project</h1>
-    <form method="POST" action="{{ route('admin.projects.store') }}">
+    <form 
+    method="POST" 
+    action="{{ route('admin.projects.store') }}" 
+    enctype="multipart/form-data"  
+    novalidate
+    >
         {{-- Per protezione dati --}}
         @csrf 
         {{-- Per protezione dati --}}
@@ -86,6 +91,24 @@
             </div>
         </div>
 
+
+        <div class="mb-3">
+            <label for="image" class="form-label"style="font-weight:700; font-size:20px">
+                Image
+            </label>
+            <div class="input-group mb-3">
+                <input type="file" 
+                class="form-control @error('image') is-invalid @enderror" 
+                id="image" name="image" accept="image/*">
+                <label class="input-group-text" for="image">
+                    Upload
+                </label>
+            </div>
+            <div class="invalid-feedback">
+                @error('image') {{ $message }} @enderror
+            </div>
+        </div>
+        
 
         <div class="mb-3">
             <label for="description" class="form-label"style="font-weight:700; font-size:20px">

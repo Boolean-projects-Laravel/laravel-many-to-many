@@ -7,7 +7,7 @@
     <title>Document</title>
     @vite('resources/js/app.js')
 </head>
-<body style="background-color: black;">
+<body class="" style="background-color:rgb(170, 16, 47); margin-bottom:0px">
     @include ('admin.includes.header')
 
     <div class="container_main">

@@ -43,6 +43,7 @@ class TypeController extends Controller
         $newType = new Type();
 
         $newType->name = $data['name'];
+        // $newType->slug = Type::slugger($data['title']);
         $newType->description = $data['description'];
 
         $newType->save();
@@ -53,6 +54,7 @@ class TypeController extends Controller
 
     public function show(Type $type)
     {
+        // $project = Type::where('slug', $slug)->firstOrFail();
         return view('admin.types.show', compact('type'));
     }
 

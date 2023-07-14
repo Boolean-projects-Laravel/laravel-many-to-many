@@ -43,11 +43,17 @@
                     <td>{{ $project->last_update }}</td>
                     <td>{{ $project->collaborators }}</td>
                     <td>{{ $project->description }}</td>
-                    <td><a href="{{ route('admin.types.show', ['type' => $project->type]) }}">{{ $project->type->name }}</a></td>
+                    <td><a 
+                        href="{{ route('admin.types.show', ['type' => $project->type]) }}"
+                        >
+                        {{ $project->type->name }}
+                        </a>
+                    </td>
                     <td>
                         {{-- <a href="">{{ implode(', ', $project->technologies->pluck('name')->all()) }}</a> --}}
                         @foreach ($project->technologies as $technology)
-                            <a href="{{route('admin.technologies.show', ['technology' => $technology])}}">{{$technology->name}}</a>{{ !$loop->last ? ',' : '' }}
+                            <a 
+                            href="{{route('admin.technologies.show', ['technology' => $technology])}}">{{$technology->name}}</a>{{ !$loop->last ? ',' : '' }}
                         @endforeach
                     </td>
                     <td><a href="{{ $project->link_github }}">Link</a></td>
@@ -63,7 +69,7 @@
                             <button class="btn btn-success">Restore</button>
                         </form>
                         <form
-                            action="{{ route('admin.projects.harddelete', ['project' => $project->id]) }}"
+                            action="{{ route('admin.projects.harddelete', ['project' => $project->slug]) }}"
                             method="post"
                             class="d-inline-block mx-1"
                         >

@@ -41,11 +41,11 @@
 
     {{-- *********************************************************************** --}}
 
-    <button type="button" class="btn btn-primary mt-4 mx-4">
+    <button type="button" class="btn btn-primary mt-4 mx-2">
         <a href="{{ route("admin.projects.create") }}" class="card-link text-decoration-none text-light" style="font-weight: 700; font-size:25px">Create a new Project</a>
     </button>
 
-    <div class="container_table m-4">
+    <div class="container_table my-4">
         <table class="table table-striped table-dark mt-4">
             <thead>
                 <tr>
@@ -55,6 +55,7 @@
                     <th scope="col">Creation Date</th>
                     <th scope="col">Last Update</th>
                     <th scope="col">Collaborators</th>
+                    <th scope="col">Image</th>
                     <th scope="col">Description</th>
                     <th scope="col">Type</th>
                     <th scope="col">Technology</th>
@@ -63,6 +64,11 @@
                 </tr>
             </thead>
             <tbody>
+
+                {{-- @foreach ($projects as $project)
+                    @dump($project->type)
+                @endforeach
+                @dd() --}}
                 @foreach ($projects as $project)
                     <tr>
                         <th scope="row">{{ $project->title }}</th>
@@ -71,10 +77,10 @@
                         <td>{{ $project->creation_date}}</td>
                         <td>{{ $project->last_update }}</td>
                         <td>{{ $project->collaborators }}</td>
+                        <td><a href="/storage/{{$project->image}}">Preview</a></td>
                         <td>{{ $project->description }}</td>
                         <td>
                             <a 
-                            class="text-decoration-none" 
                             href="{{ route('admin.types.show', ['type' => $project->type]) }}"
                             >
                             {{ $project->type->name }}
@@ -86,14 +92,15 @@
                                 <a href="{{route('admin.technologies.show', ['technology' => $technology])}}">{{$technology->name}}</a>{{ !$loop->last ? ',' : '' }}
                             @endforeach
                         </td>
-                        <td><a class="text-decoration-none" href="{{ $project->link_github }}">Link</a></td>
-                        
                         <td>
-                            <a class="btn btn-primary" href="{{ route('admin.projects.show', ['project' => $project]) }}">View</a>
-                            <a class="btn btn-warning" href="{{ route('admin.projects.edit', ['project' => $project]) }}">Edit</a>
+                            <a class="text-decoration-none" href="{{ $project->link_github }}">Link</a>
+                        </td>
+                        <td class="d-flex justify-content-end py-3">
+                            <a class="btn btn-primary mx-1" href="{{ route('admin.projects.show', ['project' => $project]) }}">View</a>
+                            <a class="btn btn-warning mx-1" href="{{ route('admin.projects.edit', ['project' => $project]) }}">Edit</a>
                             <button 
                                 type="button" 
-                                class="btn btn-danger js_delete" 
+                                class="btn btn-danger js_delete mx-1" 
                                 data-bs-toggle="modal" 
                                 data-bs-target="#deleteModal" 
                                 data-id="{{ $project->slug }}"
@@ -139,9 +146,11 @@
         </div>
     </div>
     
-    <div class="px-4 d-flex flex-column justify-content-start" style=" font-size:20px; font-weight: 700">
+    
+    <div class="px-4 d-flex flex-column justify-content-start" style="font-size:20px; font-weight: 700;">
         {{ $projects->links() }}
     </div>
 
+    {{-- <a href="{{ asset('storage/' . $project->image) }}">Preview</a> --}}
     
 @endsection
